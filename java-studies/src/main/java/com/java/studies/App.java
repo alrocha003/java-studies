@@ -1,14 +1,14 @@
 package com.java.studies;
 
+import java.util.List;
 import com.java.studies.models.Person;
+import com.java.studies.repository.PersonRepository;
 
 public class App {
     public static void main(String[] args) {
         System.out.println("GetPersons - List\n");
-        
-        for (Person person : getPersons()) {
-            System.out.printf("Name: %s - Address: %s\n", person.getName(), person.getAddress());            
-        }
+
+        useStreams();
     }
 
     private static Person[] getPersons() {
@@ -20,5 +20,20 @@ public class App {
         };
 
         return persons;
+    }
+
+    private static void useStreams() {
+        List<Person> persons = PersonRepository.getPersons();
+
+        for (Person person : persons.stream().filter(person -> person.isActive()).toList())
+            System.out.printf("Name: %s - Address: %s\n", person.getName(), person.getAddress());
+    }
+
+
+    private static void useFilter(){
+        List<Person> persons = PersonRepository.getPersons();
+
+        for (Person person : persons.stream().filter(person -> person.isActive()).toList())
+            System.out.printf("Name: %s - Address: %s\n", person.getName(), person.getAddress());
     }
 }
